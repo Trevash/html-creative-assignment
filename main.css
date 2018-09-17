@@ -1,0 +1,32 @@
+.header {
+    text-align: center;
+}
+
+#gameBoard {
+    width: 80%;
+    overflow-y: hidden;
+    height: auto;
+    background-color: gray;
+    margin: auto;
+    text-align: center;
+}
+
+#gameBoardInfo h4 {
+    display: inline;
+    padding: 5px;
+}
+
+#gameBoardInfo p {
+    display: inline;
+    margin-right: 20px;
+    padding: 5px;
+}
+
+/*Border will eventually be removed, just getting a feel for where the moles will reside.*/
+.mole {
+    width: 150px;
+    height: 110px;
+    display: inline-block;
+    margin: 10px;
+    border: 1px solid black;
+}
