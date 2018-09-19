@@ -1,13 +1,23 @@
 .header {
     text-align: center;
+    color: #CBBB9B;
+}
+
+body {
+    background-color: #574C3C;
+}
+
+#instructions {
+    color: #CBBB9B;
 }
 
 #gameBoard {
     width: 80%;
     overflow-y: hidden;
     height: auto;
-    background-color: gray;
-    margin: auto;
+    background-color: #CBBB9B;
+    margin: 20px auto;
+    padding: 15px 0;
     text-align: center;
 }
 
@@ -29,4 +39,14 @@
     display: inline-block;
     margin: 10px;
     border: 1px solid black;
+}
+
+button {
+    cursor: pointer;
+    background-color: #42733D;
+    text-align: center;
+    padding: 10px 20px;
+    display: block;
+    margin: 0 auto;
+    color: white;
 }
