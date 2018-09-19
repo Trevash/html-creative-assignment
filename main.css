@@ -9,10 +9,12 @@ body {
 
 #instructions {
     color: #CBBB9B;
+    width: 60%;
+    margin: auto;
 }
 
 #gameBoard {
-    width: 80%;
+    width: 60%;
     overflow-y: hidden;
     height: auto;
     background-color: #CBBB9B;
