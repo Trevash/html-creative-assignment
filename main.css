@@ -9,18 +9,19 @@ body {
 
 #instructions {
     color: #CBBB9B;
-    width: 60%;
+    width: 800px;
     margin: auto;
 }
 
 #gameBoard {
-    width: 60%;
+    width: 800px;
     overflow-y: hidden;
     height: auto;
     background-color: #CBBB9B;
     margin: 20px auto;
     padding: 15px 0;
     text-align: center;
+    position: relative;
 }
 
 #gameBoardInfo h4 {
@@ -34,13 +35,67 @@ body {
     padding: 5px;
 }
 
-/*Border will eventually be removed, just getting a feel for where the moles will reside.*/
+#gameBoardImage {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
 .mole {
-    width: 150px;
-    height: 110px;
-    display: inline-block;
-    margin: 10px;
-    border: 1px solid black;
+    height: 100px;
+    position: absolute;
+    visibility: hidden;
+}
+
+#mole0 {
+    top: 155px;
+    left: 100px;
+}
+
+#mole1 {
+    top: 145px;
+    left: 330px;
+}
+
+#mole2 {
+    top: 160px;
+    left: 635px;
+}
+
+#mole3 {
+    top: 275px;
+    left: 155px;
+}
+
+#mole4 {
+    top: 260px;
+    left: 380px;
+}
+
+#mole5{
+    top: 275px;
+    left: 565px;
+}
+
+#mole6 {
+    top: 390px;
+    left: 75px;
+}
+
+#mole7 {
+    top: 380px;
+    left: 285px;
+}
+
+#mole8 {
+    top: 410px;
+    left: 460px;
+}
+
+#mole9 {
+    top: 360px;
+    left: 665px;
 }
 
 button {

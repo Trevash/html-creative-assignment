@@ -25,56 +25,77 @@
                 <h4>Chances: </h4>
                 <p id="missesLeft">5</p>
             </div>
-            <!--
-            I could do a dynamic creation of moles, but that may be more work than it is worth. What are your thoughts?
-            How many moles do you think we should have?
-            Also, I have the moles as div tags, you could change them to img tags with same class/id if you want
-            -->
-            <div class="mole" id="mole0">
-
-            </div>
-            <div class="mole" id="mole1">
-
-            </div>
-            <div class="mole" id="mole2">
-
-            </div>
-            <div class="mole" id="mole3">
-
-            </div>
-            <div class="mole" id="mole4">
-
-            </div>
-            <div class="mole" id="mole5">
-
-            </div>
-            <div class="mole" id="mole6">
-
-            </div>
-            <div class="mole" id="mole7">
-
-            </div>
-            <div class="mole" id="mole8">
-
-            </div>
-            <div class="mole" id="mole9">
-
-            </div>
-            <div class="mole" id="mole10">
-
-            </div>
-            <div class="mole" id="mole11">
-
-            </div>
-            <div class="mole" id="mole12">
-
-            </div>
-            <div class="mole" id="mole13">
-
-            </div>
-            <div class="mole" id="mole14">
-
-            </div>
+            <img id="gameBoardImage" usemap="#gameBoardMap" src="images/background.png" alt="">
+            <!-- This map allows parts of the gameBoardImage to be clickable by adding areas -->
+            <map name="gameBoardMap" id="gameBoardMap">
+            </map>
+            <img class="mole" id="mole0" src="images/mole.png" alt="">
+            <img class="mole" id="mole1" src="images/mole.png" alt="">
+            <img class="mole" id="mole2" src="images/mole.png" alt="">
+            <img class="mole" id="mole3" src="images/mole.png" alt="">
+            <img class="mole" id="mole4" src="images/mole.png" alt="">
+            <img class="mole" id="mole5" src="images/mole.png" alt="">
+            <img class="mole" id="mole6" src="images/mole.png" alt="">
+            <img class="mole" id="mole7" src="images/mole.png" alt="">
+            <img class="mole" id="mole8" src="images/mole.png" alt="">
+            <img class="mole" id="mole9" src="images/mole.png" alt="">
         </div>
+        <script type="text/javascript">
+            // coordinates for areas to be included in the map
+            var coordinates = [["mole0", "152,205,60"],
+                        ["mole1", "410,190,60"],
+                        ["mole2", "755,210,60"],
+                        ["mole3", "215,340,60"],
+                        ["mole4", "470,320,60"],
+                        ["mole5", "675,340,60"],
+                        ["mole6", "125,475,60"],
+                        ["mole7", "360,460,60"],
+                        ["mole8", "560,500,60"],
+                        ["mole9", "785,440,60"]]
+            var currentMoles = [];
+            function startGame() {
+                // Create new moles every 1.5 seconds
+    		    setInterval(function() {createMole() }, 1500);
+    		}
+    		function createMole() {
+    		    var randomMole = Math.floor(Math.random() * coordinates.length);
+    		    while (currentMoles.includes(coordinates[randomMole][0])) {
+    		        randomMole = Math.floor(Math.random() * coordinates.length);
+    		    }
+    		    currentMoles.push(coordinates[randomMole][0]);
+    		    var mole = document.getElementById(coordinates[randomMole][0]);
+    		    mole.style.visibility = "visible";
+    		    
+    		    var area = document.createElement("area");
+    		    area.id = coordinates[randomMole][0] + "area";
+                area.shape = "circle";
+                area.coords = coordinates[randomMole][1];
+                area.onclick = function() { 
+                    var score = document.getElementById("score").textContent;
+                    document.getElementById("score").textContent = parseInt(score) + 10;
+                    removeMole(coordinates[randomMole][0]); 
+                };
+                var map = document.getElementById("gameBoardMap");
+                map.appendChild(area);
+                var img = document.getElementById("gameBoardImage");
+                img.usemap = map.name;
+                setTimeout(function () {
+                  removeMole(coordinates[randomMole][0])
+                }, 2000);
+    		}
+    		function removeMole(moleId) {
+    		    var index = currentMoles.indexOf(moleId);
+                if (index > -1) {
+                  currentMoles.splice(index, 1);
+                }
+    		    var mole = document.getElementById(moleId);
+    		    mole.style.visibility = "hidden";
+    		    var map = document.getElementById("gameBoardMap");
+    		    var area = document.getElementById(moleId + "area");
+    		    map.removeChild(area);
+    		    var img = document.getElementById("gameBoardImage");
+    		    img.usemap = map.name;
+    		}
+    	</script>
     </body>
 </html>
