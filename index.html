@@ -25,33 +25,31 @@
                 <h4>Chances: </h4>
                 <p id="missesLeft">5</p>
             </div>
-            <img id="gameBoardImage" usemap="#gameBoardMap" src="images/background.png" alt="">
-            <!-- This map allows parts of the gameBoardImage to be clickable by adding areas -->
-            <map name="gameBoardMap" id="gameBoardMap">
-            </map>
-            <img class="mole" id="mole0" src="images/mole.png" alt="">
-            <img class="mole" id="mole1" src="images/mole.png" alt="">
-            <img class="mole" id="mole2" src="images/mole.png" alt="">
-            <img class="mole" id="mole3" src="images/mole.png" alt="">
-            <img class="mole" id="mole4" src="images/mole.png" alt="">
-            <img class="mole" id="mole5" src="images/mole.png" alt="">
-            <img class="mole" id="mole6" src="images/mole.png" alt="">
-            <img class="mole" id="mole7" src="images/mole.png" alt="">
-            <img class="mole" id="mole8" src="images/mole.png" alt="">
-            <img class="mole" id="mole9" src="images/mole.png" alt="">
+            <img id="gameBoardImage" src="images/background.png" alt="">
+            <img class="mole" id="mole0" usemap="mole0map" src="images/mole.png" alt="">
+            <img class="mole" id="mole1" usemap="mole1map" src="images/mole.png" alt="">
+            <img class="mole" id="mole2" usemap="mole2map" src="images/mole.png" alt="">
+            <img class="mole" id="mole3" usemap="mole3map" src="images/mole.png" alt="">
+            <img class="mole" id="mole4" usemap="mole4map" src="images/mole.png" alt="">
+            <img class="mole" id="mole5" usemap="mole5map" src="images/mole.png" alt="">
+            <img class="mole" id="mole6" usemap="mole6map" src="images/mole.png" alt="">
+            <img class="mole" id="mole7" usemap="mole7map" src="images/mole.png" alt="">
+            <img class="mole" id="mole8" usemap="mole8map" src="images/mole.png" alt="">
+            <img class="mole" id="mole9" usemap="mole9map" src="images/mole.png" alt="">
+            <!-- These map allow each of the moles to be clickable by adding areas -->
+            <map name="mole0map" id="mole0map"></map>
+            <map name="mole1map" id="mole1map"></map>
+            <map name="mole2map" id="mole2map"></map>
+            <map name="mole3map" id="mole3map"></map>
+            <map name="mole4map" id="mole4map"></map>
+            <map name="mole5map" id="mole5map"></map>
+            <map name="mole6map" id="mole6map"></map>
+            <map name="mole7map" id="mole7map"></map>
+            <map name="mole8map" id="mole8map"></map>
+            <map name="mole9map" id="mole9map"></map>
         </div>
         <script type="text/javascript">
-            // coordinates for areas to be included in the map
-            var coordinates = [["mole0", "135,190,50"],
-                        ["mole1", "365,175,50"],
-                        ["mole2", "670,190,50"],
-                        ["mole3", "190,300,50"],
-                        ["mole4", "420,280,50"],
-                        ["mole5", "600,300,50"],
-                        ["mole6", "110,420,50"],
-                        ["mole7", "320,405,50"],
-                        ["mole8", "500,435,50"],
-                        ["mole9", "700,390,50"]];
+            var NUM_MOLES = 10;
             var currentMoles = [];
             var createMoleInterval;
             var stopGameInterval;
@@ -78,33 +76,34 @@
     		}
     		// Make a random mole visible and create clickable area for image map
     		function createMole() {
-    		    var randomMole = Math.floor(Math.random() * coordinates.length);
-    		    while (currentMoles.includes(coordinates[randomMole][0])) {
-    		        randomMole = Math.floor(Math.random() * coordinates.length);
+    		    var randomMole = Math.floor(Math.random() * NUM_MOLES);
+    		    while (currentMoles.includes("mole" + randomMole)) {
+    		        randomMole = Math.floor(Math.random() * NUM_MOLES);
     		    }
-    		    currentMoles.push(coordinates[randomMole][0]);
-    		    var mole = document.getElementById(coordinates[randomMole][0]);
+    		    var moleName = "mole" + randomMole;
+    		    currentMoles.push(moleName);
+    		    var mole = document.getElementById(moleName);
     		    mole.style.visibility = "visible";
     		    
     		    var area = document.createElement("area");
-    		    area.id = coordinates[randomMole][0] + "area";
-                area.shape = "circle";
-                area.coords = coordinates[randomMole][1];
+    		    area.id = moleName + "area";
+                area.shape = "rectangle";
+                area.coords = "0,0,70,100";
                 area.onclick = function() { 
                     var score = document.getElementById("score").textContent;
                     document.getElementById("score").textContent = parseInt(score) + 10;
-                    removeMole(coordinates[randomMole][0]); 
+                    removeMole(moleName); 
                 };
-                var map = document.getElementById("gameBoardMap");
+                var map = document.getElementById(moleName + "map");
                 map.appendChild(area);
-                var img = document.getElementById("gameBoardImage");
+                var img = document.getElementById(moleName);
                 img.usemap = map.name;
                 // Remove the mole if the user didn't click it in time (1.5 seconds)
                 setTimeout(function () {
-                  if (currentMoles.includes(coordinates[randomMole][0])) {
+                  if (currentMoles.includes(moleName)) {
                       var missesLeft = document.getElementById("missesLeft").textContent;
                       document.getElementById("missesLeft").textContent = parseInt(missesLeft) - 1;
-                      removeMole(coordinates[randomMole][0]);
+                      removeMole(moleName);
                   }
                 }, 1500);
     		}
@@ -116,10 +115,10 @@
                 }
     		    var mole = document.getElementById(moleId);
     		    mole.style.visibility = "hidden";
-    		    var map = document.getElementById("gameBoardMap");
+    		    var map = document.getElementById(moleId + "map");
     		    var area = document.getElementById(moleId + "area");
     		    map.removeChild(area);
-    		    var img = document.getElementById("gameBoardImage");
+    		    var img = document.getElementById(moleId);
     		    img.usemap = map.name;
     		}
     	</script>
