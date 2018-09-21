@@ -42,21 +42,41 @@
         </div>
         <script type="text/javascript">
             // coordinates for areas to be included in the map
-            var coordinates = [["mole0", "152,205,60"],
-                        ["mole1", "410,190,60"],
-                        ["mole2", "755,210,60"],
-                        ["mole3", "215,340,60"],
-                        ["mole4", "470,320,60"],
-                        ["mole5", "675,340,60"],
-                        ["mole6", "125,475,60"],
-                        ["mole7", "360,460,60"],
-                        ["mole8", "560,500,60"],
-                        ["mole9", "785,440,60"]]
+            var coordinates = [["mole0", "135,190,50"],
+                        ["mole1", "365,175,50"],
+                        ["mole2", "670,190,50"],
+                        ["mole3", "190,300,50"],
+                        ["mole4", "420,280,50"],
+                        ["mole5", "600,300,50"],
+                        ["mole6", "110,420,50"],
+                        ["mole7", "320,405,50"],
+                        ["mole8", "500,435,50"],
+                        ["mole9", "700,390,50"]];
             var currentMoles = [];
+            var createMoleInterval;
+            var stopGameInterval;
             function startGame() {
-                // Create new moles every 1.5 seconds
-    		    setInterval(function() {createMole() }, 1500);
+                document.getElementById("score").textContent = 0;
+                document.getElementById("missesLeft").textContent = 5;
+                // Create new moles every second
+    		    createMoleInterval = setInterval(function() {createMole() }, 1000);
+    		    // Continually check if missesLeft is 0, if so stop the game
+    		    stopGameInterval = setInterval(function() {stopGame() }, 50);
     		}
+    		function stopGame() {
+    		    var missesLeft = document.getElementById("missesLeft").textContent;
+    		    if (parseInt(missesLeft) == 0) {
+    		        // Stop the startGame intervals from continuing to run
+    		        clearInterval(createMoleInterval);
+    		        clearInterval(stopGameInterval);
+    		        while (currentMoles.length > 0) {
+    		            removeMole(currentMoles[0]);
+    		        }
+    		        var score = document.getElementById("score").textContent;
+    		        alert("Your score was " + score + "!");
+    		    }
+    		}
+    		// Make a random mole visible and create clickable area for image map
     		function createMole() {
     		    var randomMole = Math.floor(Math.random() * coordinates.length);
     		    while (currentMoles.includes(coordinates[randomMole][0])) {
@@ -79,10 +99,16 @@
                 map.appendChild(area);
                 var img = document.getElementById("gameBoardImage");
                 img.usemap = map.name;
+                // Remove the mole if the user didn't click it in time (1.5 seconds)
                 setTimeout(function () {
-                  removeMole(coordinates[randomMole][0])
-                }, 2000);
+                  if (currentMoles.includes(coordinates[randomMole][0])) {
+                      var missesLeft = document.getElementById("missesLeft").textContent;
+                      document.getElementById("missesLeft").textContent = parseInt(missesLeft) - 1;
+                      removeMole(coordinates[randomMole][0]);
+                  }
+                }, 1500);
     		}
+    		// Hide the mole image and remove the clickable area from the image map
     		function removeMole(moleId) {
     		    var index = currentMoles.indexOf(moleId);
                 if (index > -1) {
